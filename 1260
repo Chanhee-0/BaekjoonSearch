@@ -1,0 +1,77 @@
+#include<iostream>
+#include <queue>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int vidfs[1001];
+int vibfs[1001];
+vector<int> v[1001];
+
+void dfs(int s) {
+	if (vidfs[s]) return;
+	vidfs[s] = true;
+	cout << s << " ";
+
+	sort(v[s].begin(), v[s].end());
+
+	for (int i = 0; i < v[s].size(); i++) {
+		int x = v[s][i];
+
+		dfs(x);
+	}
+}
+
+void bfs(int s) {
+	queue<int> q;
+	q.push(s);
+	vibfs[s] = true;
+
+	while (!q.empty()) {
+		int x = q.front();
+		q.pop();
+
+		cout << x << " ";
+
+		sort(v[x].begin(), v[x].end());
+
+		for (int i = 0; i < v[x].size(); i++) {
+			int y = v[x][i];
+ 
+			if (!vibfs[y]) {
+				q.push(y);
+				vibfs[y] = true;
+			}
+		}
+	}
+
+
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+ 
+	int n, m, s, x, y;
+
+	cin >> n >> m >> s;
+
+	for (int i = 0; i < m; i++) {
+		cin >> x >> y;
+		v[x].push_back(y);
+		v[y].push_back(x);
+	}
+
+	dfs(s);
+
+	cout << endl;
+
+	bfs(s);
+
+	return 0;
+}
+/*
+1260 DFS와 BFS
+*/
