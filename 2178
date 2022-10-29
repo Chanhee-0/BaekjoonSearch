@@ -67,4 +67,102 @@ int main() {
 }
 /*
 2178 미로 탐색
+
+*/
+#include<iostream>
+#include<cstring>
+
+using namespace std;
+
+bool graph[101][101], esca;;
+int n, m, x = 0, y = 0, cnt = 1;
+
+void dfs(int a, int b) {
+	if ((a == n - 1 && b == m - 1) || esca ) return;
+
+	for (int i = 0; i < 3; i++) {
+		if (!graph[a][b + 1] && b + 1 != m) {
+			y = a, x = b + 1;
+			cnt++;
+			dfs(y, x);
+		}
+		else if (!graph[a + 1][b] && a + 1 != n) {
+			y = a - 1, x = b;
+			cnt++;
+			dfs(y, x);
+		}
+		else if (!graph[a + 1][b] && a != 0) {
+			y = a + 1, x = b;
+			cnt++;
+			dfs(y, x);
+		}
+		else if (a == n - 1 && b == m - 1)
+			esca = true;
+		else
+			cnt = 10001;
+	}
+}
+
+
+void dfs1(int a, int b) {
+	if ((a == n - 1 && b == m - 1) || esca) return;
+
+	for (int i = 0; i < 3; i++) {
+		if (!graph[a + 1][b] && a + 1 != n) {
+			y = a - 1, x = b;
+			cnt++;
+			dfs(y, x);
+		}
+		else if (!graph[a][b + 1] && b + 1 != m) {
+			y = a, x = b + 1;
+			cnt++;
+			dfs(y, x);
+		}
+		else if (!graph[a + 1][b] && a != 0) {
+			y = a + 1, x = b;
+			cnt++;
+			dfs(y, x);
+		}
+		else if (a == n - 1 && b == m - 1)
+			esca = true;
+		else
+			cnt = 10001;
+	}
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int min;
+	string s;
+
+	cin >> n >> m;
+
+	for (int i = 0; i < n; i++) {
+		cin >> s;
+		for (int j = 0; j < m; j++) {
+			if (s[j] == '1')
+				graph[i][j] = 0;
+			else if (s[j] == '1')
+				graph[i][j] = 0;
+		}
+	}
+
+	dfs(0, 0);
+	cout << "cnt : " << cnt << endl;
+	min = cnt;
+	cnt = 1;
+	dfs1(0, 0);
+	cout << "cnt : " << cnt << endl;
+	cnt = (min < cnt) ? min : cnt;
+
+	cout << cnt;
+
+	return 0;
+}
+/*
+2178 미로 탐색
+dfs
 */
