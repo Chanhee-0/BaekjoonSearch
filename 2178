@@ -166,3 +166,79 @@ int main() {
 2178 미로 탐색
 dfs
 */
+#include<iostream>
+#include<cstring>
+#include<queue>
+
+using namespace std;
+
+bool graph[101][101];
+int m, n, x = 0, y = 0, cnt;
+
+void bfs() {
+	queue <pair<int, int>> q;
+	queue <int> move;
+	q.push({ 0, 0 });
+	move.push(1);
+	graph[y][x] = true;
+
+	while (!q.empty()) {
+		y = q.front().first;
+		x = q.front().second;
+		cnt = move.front();
+		q.pop();
+		move.pop();
+		if (y == n - 1 && x == m - 1)
+			break;
+		cnt++;
+		if (!graph[y][x + 1] && x + 1 != m) { // 오른쪽으로 이동
+			q.push(make_pair(y, x + 1));
+			move.push(cnt);
+			graph[y][x + 1] = true;
+		}
+		if (!graph[y][x - 1] && x != 0) { // 왼쪽으로 이동
+			q.push(make_pair(y, x - 1));
+			move.push(cnt);
+			graph[y][x - 1] = true;
+		}
+		if (!graph[y + 1][x] && y + 1 != n) { // 아래로 이동
+			q.push(make_pair(y + 1, x));
+			move.push(cnt);
+			graph[y + 1][x] = true;
+		}
+		if (!graph[y - 1][x] && y != 0) { // 위로 이동
+			q.push(make_pair(y - 1, x));
+			move.push(cnt);
+			graph[y - 1][x] = true;
+		}
+	}
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	string s;
+
+	cin >> n >> m;
+
+	for (int i = 0; i < n; i++) {
+		cin >> s;
+		for (int j = 0; j < m; j++) {
+			if (s[j] == '1')
+				graph[i][j] = false;
+			else if (s[j] == '0')
+				graph[i][j] = true;
+		}
+	}
+
+	bfs();
+
+	cout << cnt;
+
+	return 0;
+}
+/*
+2178 미로 탐색
+*/
